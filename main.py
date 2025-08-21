@@ -93,11 +93,13 @@ def add_station_item(base_url, addon_handle, route, station, is_my_station: bool
 
     xbmcplugin.addDirectoryItem(handle=addon_handle, url=localUrl, listitem=list_item, isFolder=False)
 
+
 def add_stations(endpoint):
     stations = request_radio_browser_api(endpoint)
     for station in stations:
-        add_station_item(base_url, addon_handle, "play",station)
+        add_station_item(base_url, addon_handle, "play", station)
 
+    xbmcplugin.addSortMethod(addon_handle, xbmcplugin.SORT_METHOD_LABEL)
     xbmcplugin.endOfDirectory(addon_handle)
 
 
@@ -143,6 +145,7 @@ def router(base_url, addon_handle, arguments):
             station = request_radio_browser_api(f"/json/stations/byuuid/{station}")[0]
             add_station_item(base_url, addon_handle, "play", station, is_my_station = True)
 
+        xbmcplugin.addSortMethod(addon_handle, xbmcplugin.SORT_METHOD_LABEL)
         xbmcplugin.endOfDirectory(addon_handle)
         return
 
